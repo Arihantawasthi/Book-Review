@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Registration
+{% endblock %}
+
+{% block body %}
+  <h1>Register Yourself</h1>
+
+  <form class="id_form" action="{{ url_for('register') }}" method="post">
+    <p>Enter your Username: </p>
+    <input type="text" name="username" placeholder="Enter you username" autofocus="on">
+    <p>Enter your Password: </p>
+    <input type="password" name="password"><br>
+    <button name="button">Register</button>
+
+  </form>
+{% endblock %}
