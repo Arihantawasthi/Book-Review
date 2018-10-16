@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, session, render_template, request
+from flask import Flask, session, render_template, request, redirect, url_for
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -39,27 +39,34 @@ def register():
             # Checking whether username already exists or not
             for user in usernames:
                 if user.username == username:
-                    return "Username Already Exists, please enter a different username"
+                    return render_template("error.html")
 
             users = db.execute("INSERT INTO users (username, password) VALUES (:username, :password)", {"username": username, "password": password})
             db.commit()
-            return "You are registered"
+            return render_template("welcome.html", username=username)
 
         else:
-            return render_template("error.html")
+            return render_template("register_error.html")
     return render_template("register.html")
 
+#LOGIN
 @app.route("/login", methods=["POST", "GET"])
 def login():
     if request.method == "POST":
-        username = request.form.get("log_username")
+        session["username"] = request.form.get("log_username")
         password = request.form.get("log_password")
 
         users = db.execute("SELECT username, password FROM users")
         for user in users:
-            if user.username == username and user.password == password:
-                return render_template("welcome.html")
+            if user.username == session["username"] and user.password == password:
+                return render_template("welcome.html", username=session["username"])
 
-        return "username or password in correct"
+        return render_template("login_error.html")
 
     return render_template("login.html")
+
+#Logout
+@app.route("/logout")
+def logout():
+    session.pop("username")
+    return redirect(url_for('index'))

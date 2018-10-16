@@ -6,7 +6,8 @@
 
 {% block body %}
   <h1>Register Yourself</h1>
-  <p>!! Username Already Exists, please enter a different username</p>
+
+  <p>!! Password or Username is missing</p>
   <form class="id_form" action="{{ url_for('register') }}" method="post">
     <p>Enter your Username: </p>
     <input type="text" name="username" placeholder="Enter you username" autofocus="on">

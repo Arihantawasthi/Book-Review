@@ -5,5 +5,7 @@
 {% endblock %}
 
 {% block body %}
-  <h1>Welcome, you are logged in</h1>
+  <h1>Welcome {{ username }}, you are logged in</h1>
+  <br>
+  <p>@{{ username }} <a href="{{ url_for('logout') }}">Logout</p>
 {% endblock %}
